@@ -143,7 +143,7 @@ static NSString *filenameExtension = @"tiff";
 	if(!width && !height) {
 		//size is 0: find largest size and use that
 		/*	Thumbnail: 128
-		 *	Huge: 64
+		 *	Huge: 48
 		 *	Large: 32
 		 *	Small: 16
 		 *	Mini: 8
@@ -156,7 +156,7 @@ static NSString *filenameExtension = @"tiff";
 			else if(IsDataAvailableInIconRef(kHuge32BitData, icon)
 				|| IsDataAvailableInIconRef(kHuge8BitData, icon)
 				|| IsDataAvailableInIconRef(kHuge4BitData, icon))
-				width = height = 64U;
+				width = height = 48U;
 			else if(IsDataAvailableInIconRef(kLarge32BitData, icon)
 				|| IsDataAvailableInIconRef(kLarge8BitData, icon)
 				|| IsDataAvailableInIconRef(kLarge4BitData, icon))
@@ -179,7 +179,7 @@ static NSString *filenameExtension = @"tiff";
 			if(err != noErr) //default to 128 on error
 				width = height = 128U;
 			else if(selectors & kSelectorAllHugeData)
-				width = height = 64U;
+				width = height = 48U;
 			else if(selectors & kSelectorAllLargeData)
 				width = height = 32U;
 			else if(selectors & kSelectorAllSmallData)
