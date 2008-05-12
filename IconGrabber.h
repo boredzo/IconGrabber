@@ -2,8 +2,8 @@
 //  IconGrabber.h
 //  IconGrabber
 //
-//  Created by Mac-arena the Bored Zo on 08/15/2004.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Created by Peter Hosey on 08/15/2004.
+//  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

@@ -2,8 +2,8 @@
 //  IGStringAdditions.m
 //  IconGrabber
 //
-//  Created by Mac-arena the Bored Zo on 2004-11-21.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Created by Peter Hosey on 2004-11-21.
+//  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
 #import "IGStringAdditions.h"

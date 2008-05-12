@@ -2,8 +2,8 @@
 //  main.m
 //  IconGrabber
 //
-//  Created by Mac-arena the Bored Zo on 08/15/2004.
-//  Copyright __MyCompanyName__ 2004. All rights reserved.
+//  Created by Peter Hosey on 08/15/2004.
+//  Copyright Peter Hosey 2004. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
