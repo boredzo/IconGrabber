@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>ICON</string>
 	<key>CFBundleVersion</key>
-	<string>2.0b1</string>
+	<string>2.0</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
