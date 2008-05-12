@@ -146,7 +146,7 @@ static NSString *filenameExtension = @"tiff";
 		 *	Huge: 48
 		 *	Large: 32
 		 *	Small: 16
-		 *	Mini: 8
+		 *	Mini: 8
 		 */
 		//only use IsDataAvailableInIconRef on 10.3 and later.
 		//on earlier versions, use now-deprecated GetIconSizesFromIconRef.
