@@ -1,0 +1,36 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                copyImage = id; 
+                drawIcon = id; 
+                saveDocument = id; 
+                saveDocumentAs = id; 
+                setLabelPopUpToCustom = id; 
+                updateEnabledStates = id; 
+            }; 
+            CLASS = IconGrabber; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                MIMEField = NSTextField; 
+                creatorField = NSTextField; 
+                drawButton = NSButton; 
+                extField = NSTextField; 
+                heightField = NSTextField; 
+                imageWell = NSImageView; 
+                labelPopup = NSPopUpButton; 
+                labelWell = NSColorWell; 
+                mainWindow = NSWindow; 
+                modeButtons = NSMatrix; 
+                nameField = NSTextField; 
+                selectedCheckbox = NSButton; 
+                transformPopup = NSPopUpButton; 
+                typeField = NSTextField; 
+                widthField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
