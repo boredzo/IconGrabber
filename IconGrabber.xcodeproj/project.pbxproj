@@ -218,7 +218,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		31773C1B0DD7EA0E00D3DD2A /* Development */ = {
+		31773C1B0DD7EA0E00D3DD2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -246,9 +246,9 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		31773C1C0DD7EA0E00D3DD2A /* Deployment */ = {
+		31773C1C0DD7EA0E00D3DD2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -276,52 +276,21 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		31773C1D0DD7EA0E00D3DD2A /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = IconGrabber_Prefix.pch;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_PEDANTIC = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = IconGrabber;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Default;
-		};
-		31773C1F0DD7EA0E00D3DD2A /* Development */ = {
+		31773C1F0DD7EA0E00D3DD2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		31773C200DD7EA0E00D3DD2A /* Deployment */ = {
+		31773C200DD7EA0E00D3DD2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
-		};
-		31773C210DD7EA0E00D3DD2A /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -329,22 +298,20 @@
 		31773C1A0DD7EA0E00D3DD2A /* Build configuration list for PBXNativeTarget "IconGrabber" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				31773C1B0DD7EA0E00D3DD2A /* Development */,
-				31773C1C0DD7EA0E00D3DD2A /* Deployment */,
-				31773C1D0DD7EA0E00D3DD2A /* Default */,
+				31773C1B0DD7EA0E00D3DD2A /* Debug */,
+				31773C1C0DD7EA0E00D3DD2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		31773C1E0DD7EA0E00D3DD2A /* Build configuration list for PBXProject "IconGrabber" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				31773C1F0DD7EA0E00D3DD2A /* Development */,
-				31773C200DD7EA0E00D3DD2A /* Deployment */,
-				31773C210DD7EA0E00D3DD2A /* Default */,
+				31773C1F0DD7EA0E00D3DD2A /* Debug */,
+				31773C200DD7EA0E00D3DD2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
