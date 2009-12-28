@@ -42,7 +42,7 @@ static NSString *filenameExtension = @"tiff";
 		
 		if(creatorLength == 4U) {
 			CFStringGetCString((CFStringRef)creatorString, cStringBuffer, 8, kCFStringEncodingMacRoman);
-			creator = *(OSType *)cStringBuffer;
+			creator = OSSwapHostToBigInt32(*(OSType *)cStringBuffer);
 		} else if((creatorLength == 0U) || [creatorString isEqualToString:systemCreatorName]) {
 			creator = kSystemIconsCreator;
 		} else {
@@ -53,7 +53,7 @@ static NSString *filenameExtension = @"tiff";
 			return nil;
 		}
 		CFStringGetCString((CFStringRef)typeString, cStringBuffer, 8, kCFStringEncodingMacRoman);
-		fileType = *(OSType *)cStringBuffer;
+		fileType = OSSwapHostToBigInt32(*(OSType *)cStringBuffer);
 	} else /*if([typeString length] != 4U)*/ {
 		[[typeField window] makeFirstResponder:typeField];
 		if([creatorString length] == 4U)
