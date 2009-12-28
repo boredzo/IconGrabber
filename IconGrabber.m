@@ -16,6 +16,12 @@ static const SInt16 labels[] = { 0, 0, 1, 2, 3, 4, 5, 6, 7 };
 static NSString *systemCreatorName = @"kSystemIconsCreator";
 static NSString *filenameExtension = @"tiff";
 
+@interface IconGrabber ()
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+@end
+
 @implementation IconGrabber
 
 - init {
