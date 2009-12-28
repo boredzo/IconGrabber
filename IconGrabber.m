@@ -106,7 +106,6 @@ static NSString *filenameExtension = @"tiff";
 - (NSImage *)imageWithCarbonIcon:(IconRef)icon {
 	AcquireIconRef(icon);
 
-	OSStatus err;
 	IconTransformType transform = transforms[[transformPopup indexOfItem:[transformPopup selectedItem]]];
 	transform |= kTransformSelected * ([selectedCheckbox state] != NSOffState);
 	RGBColor labelColor, *labelColorPtr;
@@ -148,50 +147,25 @@ static NSString *filenameExtension = @"tiff";
 		 *	Small: 16
 		 *	Mini: 8
 		 */
-		//only use IsDataAvailableInIconRef on 10.3 and later.
-		//on earlier versions, use now-deprecated GetIconSizesFromIconRef.
-		if(IsDataAvailableInIconRef) {
-			if(IsDataAvailableInIconRef(kThumbnail32BitData, icon))
-				width = height = 128U;
-			else if(IsDataAvailableInIconRef(kHuge32BitData, icon)
-				|| IsDataAvailableInIconRef(kHuge8BitData, icon)
-				|| IsDataAvailableInIconRef(kHuge4BitData, icon))
-				width = height = 48U;
-			else if(IsDataAvailableInIconRef(kLarge32BitData, icon)
-				|| IsDataAvailableInIconRef(kLarge8BitData, icon)
-				|| IsDataAvailableInIconRef(kLarge4BitData, icon))
-				width = height = 32U;
-			else if(IsDataAvailableInIconRef(kSmall32BitData, icon)
-				|| IsDataAvailableInIconRef(kSmall8BitData, icon)
-				|| IsDataAvailableInIconRef(kSmall4BitData, icon))
-				width = height = 16U;
-			else if(IsDataAvailableInIconRef(kMini8BitData, icon)
-				|| IsDataAvailableInIconRef(kMini4BitData, icon))
-				width = height = 8U;
-			else //default to 128
-				width = height = 128U;
-		} else if(GetIconSizesFromIconRef) {
-			enum {
-				imageDataMask = (kSelectorAllHugeData | kSelectorAllLargeData | kSelectorAllSmallData | kSelectorAllMiniData) & ~(kSelectorHuge8BitMask | kSelectorLarge8BitMask | kSelectorSmall8BitMask)
-			};
-			IconSelectorValue selectors = 0U;
-			err = GetIconSizesFromIconRef(imageDataMask, &selectors, kIconServicesNormalUsageFlag, icon);
-			if(err != noErr) //default to 128 on error
-				width = height = 128U;
-			else if(selectors & kSelectorAllHugeData)
-				width = height = 48U;
-			else if(selectors & kSelectorAllLargeData)
-				width = height = 32U;
-			else if(selectors & kSelectorAllSmallData)
-				width = height = 16U;
-			else if(selectors & kSelectorAllMiniData)
-				width = height = 8U;
-		} else {
-			//this version of IconGrabber doesn't know how to determine the
-			//	largest size on this OS version.
-			//fall back on 128.
+		if(IsDataAvailableInIconRef(kThumbnail32BitData, icon))
 			width = height = 128U;
-		}
+		else if(IsDataAvailableInIconRef(kHuge32BitData, icon)
+			|| IsDataAvailableInIconRef(kHuge8BitData, icon)
+			|| IsDataAvailableInIconRef(kHuge4BitData, icon))
+			width = height = 48U;
+		else if(IsDataAvailableInIconRef(kLarge32BitData, icon)
+			|| IsDataAvailableInIconRef(kLarge8BitData, icon)
+			|| IsDataAvailableInIconRef(kLarge4BitData, icon))
+			width = height = 32U;
+		else if(IsDataAvailableInIconRef(kSmall32BitData, icon)
+			|| IsDataAvailableInIconRef(kSmall8BitData, icon)
+			|| IsDataAvailableInIconRef(kSmall4BitData, icon))
+			width = height = 16U;
+		else if(IsDataAvailableInIconRef(kMini8BitData, icon)
+			|| IsDataAvailableInIconRef(kMini4BitData, icon))
+			width = height = 8U;
+		else //default to 128
+			width = height = 128U;
 	}
 	CGRect drawRect = { { 0.0f, 0.0f }, { width, height } };
 	const size_t bitsPerComponent = 8U;
@@ -348,14 +322,6 @@ static NSString *filenameExtension = @"tiff";
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
 #pragma unused(notification)
-	if(!GetIconRefFromTypeInfo) {
-		//can't get icons by MIME type or path extension on this OS.
-		//so, disable those buttons and fields.
-		[[modeButtons cellWithTag:useExtension] setEnabled:NO];
-		[extField setEnabled:NO];
-		[[modeButtons cellWithTag:useMIMEType]  setEnabled:NO];
-		[MIMEField setEnabled:NO];
-	}
 	[mainWindow setFrameUsingName:@"Main Window"];
 	[mainWindow makeKeyAndOrderFront:self];
 }
