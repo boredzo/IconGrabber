@@ -29,14 +29,14 @@ static NSString *filenameExtension = @"tiff";
 
 - (NSImage *)imageWithHFSType:(NSString *)typeString creator:(NSString *)creatorString {
 	OSStatus err;
-	char cString[8]; //8 for alignment
+	char cStringBuffer[8]; //8 for alignment
 	OSType fileType, creator;
 	if([typeString length] == 4U) {
 		unsigned creatorLength = [creatorString length];
 		
 		if(creatorLength == 4U) {
-			CFStringGetCString((CFStringRef)creatorString, cString, 8, kCFStringEncodingMacRoman);
-			creator = *(OSType *)cString;
+			CFStringGetCString((CFStringRef)creatorString, cStringBuffer, 8, kCFStringEncodingMacRoman);
+			creator = *(OSType *)cStringBuffer;
 		} else if((creatorLength == 0U) || [creatorString isEqualToString:systemCreatorName]) {
 			creator = kSystemIconsCreator;
 		} else {
@@ -46,8 +46,8 @@ static NSString *filenameExtension = @"tiff";
 							NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil);
 			return nil;
 		}
-		CFStringGetCString((CFStringRef)typeString, cString, 8, kCFStringEncodingMacRoman);
-		fileType = *(OSType *)cString;
+		CFStringGetCString((CFStringRef)typeString, cStringBuffer, 8, kCFStringEncodingMacRoman);
+		fileType = *(OSType *)cStringBuffer;
 	} else /*if([typeString length] != 4U)*/ {
 		[[typeField window] makeFirstResponder:typeField];
 		if([creatorString length] == 4U)
