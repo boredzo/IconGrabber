@@ -139,7 +139,7 @@ static NSString *filenameExtension = @"tiff";
 			labelColorPtr = &labelColor;
 	}
 	PlotIconRefFlags flags = kPlotIconRefNormalFlags;
-	IconAlignmentType align = kAlignAbsoluteCenter;
+	IconAlignmentType align = kAlignNone;
 
 	size_t width, height;
 	//we use floatValue because it accomodates the added range of an unsigned
