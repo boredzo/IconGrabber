@@ -328,6 +328,46 @@ static NSString *filenameExtension = @"tiff";
 	return [[image TIFFRepresentation] writeToFile:path atomically:atomically];
 }
 
+#pragma mark Label name properties
+
+- (NSString *) nameOfLabel:(SInt16)labelNumber {
+	NSString *name = nil;
+
+	struct RGBColor color;
+	Str255 namePascalString;
+	OSStatus err = GetLabel(labelNumber, &color, namePascalString);
+	if (err == noErr) {
+		name = [(id)CFStringCreateWithPascalString(kCFAllocatorDefault, namePascalString, kCFStringEncodingMacRoman) autorelease];
+	}
+
+	if (name == nil)
+		name = [NSString stringWithFormat:NSLocalizedString(@"Label %i", @"Default label name format"), labelNumber];
+
+	return name;
+}
+
+- (NSString *) label1Title {
+	return [self nameOfLabel:1];
+}
+- (NSString *) label2Title {
+	return [self nameOfLabel:2];
+}
+- (NSString *) label3Title {
+	return [self nameOfLabel:3];
+}
+- (NSString *) label4Title {
+	return [self nameOfLabel:4];
+}
+- (NSString *) label5Title {
+	return [self nameOfLabel:5];
+}
+- (NSString *) label6Title {
+	return [self nameOfLabel:6];
+}
+- (NSString *) label7Title {
+	return [self nameOfLabel:7];
+}
+
 #pragma mark -
 #pragma mark NSApplication delegate conformance
 

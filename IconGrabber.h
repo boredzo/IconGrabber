@@ -65,4 +65,13 @@ enum {
 
 - (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path atomically:(BOOL)atomically;
 
+//Read-only properties.
+- (NSString *) label1Title;
+- (NSString *) label2Title;
+- (NSString *) label3Title;
+- (NSString *) label4Title;
+- (NSString *) label5Title;
+- (NSString *) label6Title;
+- (NSString *) label7Title;
+
 @end
