@@ -36,6 +36,15 @@ You can resize the window to adjust the size of the image well and some of the f
 
 Version history
 ===============
+2.0.1
+-----
+* Cleared default value of width and height fields, making use-biggest-available-size behavior more obvious.
+* Use-biggest-available-size behavior (triggered by both width and height being empty or 0) now detects 256- and 512-pixel representations.
+* Fixed forced centering. This wasn't a problem for most images, but was totally wrong for images such as the Alias badge ('abdg') and Caution badge ('cbdg').
+* Each specific-label menu item in the label pop-up now has the name of its label as its title.
+* Now requires Mac OS X 10.4 or later.
+* Now a Universal Binary.
+
 2.0
 ---
 * Changed version to 2.0 from 2.0b1.
