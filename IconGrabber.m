@@ -8,6 +8,7 @@
 
 #import "IconGrabber.h"
 #import "IGStringAdditions.h"
+#import "NamesFromTheFuture.h"
 
 static const IconTransformType transforms[] = { kTransformNone, kTransformDisabled, kTransformOffline, kTransformOpen };
 //map pop-up menu indices to label indices. (see docs for GetLabel in Icon Utilities.)
@@ -153,7 +154,11 @@ static NSString *filenameExtension = @"tiff";
 		 *	Small: 16
 		 *	Mini: 8
 		 */
-		if(IsDataAvailableInIconRef(kThumbnail32BitData, icon))
+		if(IsDataAvailableInIconRef(kIconServices512PixelDataARGB, icon))
+			width = height = 512U;
+		else if(IsDataAvailableInIconRef(kIconServices256PixelDataARGB, icon))
+			width = height = 256U;
+		else if(IsDataAvailableInIconRef(kThumbnail32BitData, icon))
 			width = height = 128U;
 		else if(IsDataAvailableInIconRef(kHuge32BitData, icon)
 			|| IsDataAvailableInIconRef(kHuge8BitData, icon)
