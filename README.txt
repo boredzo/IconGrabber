@@ -69,6 +69,6 @@ Future expansion
 Contact; date
 =============
 
-http://boredzo.fourx.org/icongrabber/
+http://boredzo.org/icongrabber/
 
 This software was released on 2004-11-23.
