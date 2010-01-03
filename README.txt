@@ -19,12 +19,10 @@ First you must specify a criterion by which to look up the icon. There are four:
 * MIME type
 	You can find a central repository of these (used by Apache web server) in /etc/httpd/mime.types; you can also look inside applications' Icon.plist files using a text editor or Property List Editor to see what MIME types they support.
 
-On Jaguar, extension and MIME-type look-up are not available, therefore you can only look up icons by type/creator or name.
-
 Three of those criteria are looked up through Icon Services (name lookups aren't available in Icon Services; they're done with NSImage). For these criteria, you can specify transformations to apply to the image:
 
 * Transform
-	'Disabled' makes it look like a disabled control. 'Offline' is what used to happen to a disk when you unmounted it without ejecting it (now, as of Panther, it has no effect). 'Open' is what used to happen to an application when you opened it (now, as of Panther, it makes the icon disappear!).
+	'Disabled' makes it look like a disabled control. 'Offline' is what used to happen to a disk when you unmounted it without ejecting it. 'Open' is what used to happen to an application when you opened it.
 * Selected
 	Darkens the image, like when you select it in the Finder.
 * Width/height
