@@ -283,7 +283,7 @@ static NSString *filenameExtension = @"tiff";
 
 - (IBAction)setLabelPopUpToCustom:sender {
 #pragma unused(sender)
-	[labelPopup selectItemAtIndex:1];
+	[labelPopup selectItemWithTag:0];
 }
 
 - (IBAction)copyImage:sender {
