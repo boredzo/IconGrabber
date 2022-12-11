@@ -8,18 +8,15 @@
 
 #import "IconGrabber.h"
 #import "IGStringAdditions.h"
-#import "NamesFromTheFuture.h"
 
 static const IconTransformType transforms[] = { kTransformNone, kTransformDisabled, kTransformOffline, kTransformOpen };
-//map pop-up menu indices to label indices. (see docs for GetLabel in Icon Utilities.)
-static const SInt16 labels[] = { 0, 0, 1, 2, 3, 4, 5, 6, 7 };
 
 static NSString *systemCreatorName = @"kSystemIconsCreator";
 static NSString *filenameExtension = @"tiff";
 
 @interface IconGrabber ()
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSModalResponse)returnCode contextInfo:(void *)contextInfo;
 
 @end
 
@@ -39,7 +36,7 @@ static NSString *filenameExtension = @"tiff";
 	char cStringBuffer[8]; //8 for alignment
 	OSType fileType, creator;
 	if([typeString length] == 4U) {
-		unsigned creatorLength = [creatorString length];
+		NSUInteger const creatorLength = [creatorString length];
 		
 		if(creatorLength == 4U) {
 			CFStringGetCString((CFStringRef)creatorString, cStringBuffer, 8, kCFStringEncodingMacRoman);
@@ -72,8 +69,9 @@ static NSString *filenameExtension = @"tiff";
 	err = GetIconRef(kOnSystemDisk, creator, fileType, &icon);
 	if(!icon) {
 		NSRunAlertPanel(NSLocalizedString(@"Icon Services error", /*comment*/ NULL),
-						[NSString stringWithFormat:NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL), (long)err],
-						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil);
+						NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL),
+						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil,
+						(long)err);
 		return nil;
 	}
 
@@ -86,8 +84,9 @@ static NSString *filenameExtension = @"tiff";
 	OSStatus err = GetIconRefFromTypeInfo(/*creator*/ 0, /*type*/ 0, (CFStringRef)ext, /*MIMEType*/ NULL, kIconServicesNormalUsageFlag, &icon);
 	if(!icon) {
 		NSRunAlertPanel(NSLocalizedString(@"Icon Services error", /*comment*/ NULL),
-						[NSString stringWithFormat:NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL), (long)err],
-						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil);
+						NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL),
+						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil,
+						(long)err);
 		return nil;
 	}
 
@@ -100,8 +99,9 @@ static NSString *filenameExtension = @"tiff";
 	OSStatus err = GetIconRefFromTypeInfo(/*creator*/ 0, /*type*/ 0, /*extension*/ NULL, (CFStringRef)type, kIconServicesNormalUsageFlag, &icon);
 	if(!icon) {
 		NSRunAlertPanel(NSLocalizedString(@"Icon Services error", /*comment*/ NULL),
-						[NSString stringWithFormat:NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL), (long)err],
-						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil);
+						NSLocalizedString(@"GetIconRef did not return an IconRef: err %li", /*comment*/ NULL),
+						NSLocalizedString(@"OK", /*comment*/ NULL), nil, nil,
+						(long)err);
 		return nil;
 	}
 	
@@ -116,16 +116,16 @@ static NSString *filenameExtension = @"tiff";
 	IconTransformType transform = transforms[[transformPopup indexOfItem:[transformPopup selectedItem]]];
 	transform |= kTransformSelected * ([selectedCheckbox state] != NSOffState);
 	RGBColor labelColor, *labelColorPtr;
-	SInt16 labelIndex = [labelPopup indexOfItem:[labelPopup selectedItem]];
-	switch(labelIndex) {
-		case 0:
+	NSInteger const labelTag = [labelPopup selectedItem].tag;
+	switch(labelTag) {
+		case -1:
 			//no label
 			labelColorPtr = NULL;
 			break;
-		case 1:;
+		case 0:;
 			//custom label (read from colorWell)
 			NSColor *color = [[labelWell color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-			float r, g, b;
+			CGFloat r, g, b;
 			[color getRed:&r green:&g blue:&b alpha:NULL];
 			enum { COLOR_MAX = SHRT_MAX };
 			labelColor.red   = COLOR_MAX * r;
@@ -134,9 +134,9 @@ static NSString *filenameExtension = @"tiff";
 			labelColorPtr = &labelColor;
 			break;
 		default:;
-			Str255 labelName;
-			GetLabel(labels[labelIndex], &labelColor, labelName);
-			labelColorPtr = &labelColor;
+			//We can't GetLabel the label color anymore. Set it as a transform.
+			transform |= labelTag << 8;
+			labelColorPtr = NULL;
 	}
 	PlotIconRefFlags flags = kPlotIconRefNormalFlags;
 	IconAlignmentType align = kAlignNone;
@@ -218,17 +218,18 @@ static NSString *filenameExtension = @"tiff";
 
 - (NSImage *)imageWithName:(NSString *)name {
 	NSImage *icon = [NSImage imageNamed:name];
-	float width = [widthField floatValue], height = [heightField floatValue];
+	CGFloat width = [widthField doubleValue], height = [heightField doubleValue];
 	if(width && height) {
 		NSSize size = { width, height };
-		[icon setScalesWhenResized:YES];
+		//Deprecated. The warning claims it can be removed without replacement and cites the 10.6 release notes.
+//		[icon setScalesWhenResized:YES];
 		[icon setSize:size];
 	}
 	return icon;
 }
 
 - (IBAction)updateEnabledStates:sender {
-	int tag = [[sender selectedCell] tag];
+	NSInteger const tag = [[sender selectedCell] tag];
 	BOOL iconServicesControlsEnabled = (tag != useName);
 
 	[typeField    setEnabled: tag == useTypeCreator];
@@ -249,7 +250,7 @@ static NSString *filenameExtension = @"tiff";
 	[cachedImage release];
 	cachedImage = nil;
 
-	int tag = [[modeButtons selectedCell] tag];
+	NSInteger const tag = [[modeButtons selectedCell] tag];
 	if(tag == useTypeCreator) {
 		typeString    = [typeField    stringValue];
 		creatorString = [creatorField stringValue];
@@ -306,21 +307,20 @@ static NSString *filenameExtension = @"tiff";
 #pragma unused(sender)
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	[savePanel setCanSelectHiddenExtension:YES];
-	[savePanel beginSheetForDirectory:saveDirectory
-								 file:defaultFilename
-					   modalForWindow:mainWindow
-						modalDelegate:self
-					   didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-						  contextInfo:NULL];
+	savePanel.directoryURL = [NSURL fileURLWithPath:saveDirectory isDirectory:true];
+	savePanel.nameFieldStringValue = defaultFilename;
+	[savePanel beginSheet:mainWindow completionHandler:^(NSModalResponse returnCode) {
+		[self savePanelDidEnd:savePanel returnCode:returnCode contextInfo:NULL];
+	}];
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSModalResponse)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(contextInfo)
 	if(returnCode == NSOKButton) {
 		[saveDirectory release];
-		saveDirectory = [[sheet directory] retain];
+		saveDirectory = [[sheet directoryURL].path retain];
 		[savePath release];
-		savePath = [[sheet filename] retain];
+		savePath = [[sheet URL].path retain];
 		[self saveImage:cachedImage toPath:savePath atomically:YES];
 	}
 }
@@ -333,12 +333,14 @@ static NSString *filenameExtension = @"tiff";
 - (NSString *) nameOfLabel:(SInt16)labelNumber {
 	NSString *name = nil;
 
+#if ! __LP64__
 	struct RGBColor color;
 	Str255 namePascalString;
 	OSStatus err = GetLabel(labelNumber, &color, namePascalString);
 	if (err == noErr) {
 		name = [(id)CFStringCreateWithPascalString(kCFAllocatorDefault, namePascalString, kCFStringEncodingMacRoman) autorelease];
 	}
+#endif
 
 	if (name == nil)
 		name = [NSString stringWithFormat:NSLocalizedString(@"Label %i", @"Default label name format"), labelNumber];
